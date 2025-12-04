@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Visualization for Real Estate</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #735DA5; /* Dark background color */
+            color: black; /* Light text color */
+        }
+
+        header {
+            background-color: #D3C5E5; /* Blue background color for header */
+            color: black;
+            text-align: left;
+            padding: 1px 0;
+            padding-left: 20px;
+        }
+
+        .hero-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px;
+            background-color:#D3C5E5; /* Darker background color */
+            margin: 20px;
+        }
+
+        .hero-text {
+            width: 55%;
+            line-height: 1.2;
+            font-size: 20px; /* Increased font size */
+            text-align: justify;
+            padding-right: 50px;
+        }
+
+        .hero-image {
+            width: 45%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .select-image-button,
+        .cta-button {
+            background-color: #735DA5; /* Red background color for the button */
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .select-image-button:hover,
+        .cta-button:hover {
+            background-color: #D3C5E5; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>3D Visualization for Real Estate</h2>
+    </header>
+
+    <div class="hero-section">
+        <div class="hero-text">
+            <h2>Explore the Future of Real Estate Architecture with Visualization and Augmented Reality</h2>
+            <p>Immerse yourself in the future of architectural visualization. Our 3D modulation using augmented reality technology brings designs to life. Explore innovative solutions for real estate projects, visualize spaces like never before, and enhance your design process.</p>
+            <h4>Process</h4>
+            <p>2D Layout → 3D Model → AR View → Customization</p>
+        </div>
+        <div class="hero-image">
+            <img id="selected-image" src="https://archicgi.com/wp-content/uploads/2019/12/architectural-rendering-atlanta-exterior-project-1536x864.jpg"> <!-- Replace 'your-image-url.jpg' with the actual URL of your image -->
+        </div>
+    </div>
+
+    <div class="cta-buttons">
+        <input type="file" id="image-upload" style="display: none;">
+        <button class="select-image-button" onclick="document.getElementById('image-upload').click()">Select Image</button>
+        <button class="cta-button">View in Augmented Reality</button>
+    </div>
+
+    <script>
+        document.getElementById('image-upload').addEventListener('change', function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('selected-image').src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

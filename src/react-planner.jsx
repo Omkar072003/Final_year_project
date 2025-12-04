@@ -1,35 +1,56 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import Translator from './translator/translator';
 import Catalog from './catalog/catalog';
 import actions from './actions/export';
-import {objectsMap} from './utils/objects-utils';
+import { objectsMap } from './utils/objects-utils';
 import {
   ToolbarComponents,
   Content,
   SidebarComponents,
   FooterBarComponents
 } from './components/export';
-import {VERSION} from './version';
+import { VERSION } from './version';
 import './styles/export';
+import Planner from './Planner';
 
-const {Toolbar} = ToolbarComponents;
-const {Sidebar} = SidebarComponents;
-const {FooterBar} = FooterBarComponents;
+const { Toolbar } = ToolbarComponents;
+const { Sidebar } = SidebarComponents;
+const { FooterBar } = FooterBarComponents;
 
 const toolbarW = 50;
 const sidebarW = 300;
-const footerBarH= 20;
+const footerBarH = 20;
 
 const wrapperStyle = {
   display: 'flex',
   flexFlow: 'row nowrap'
 };
 
+const mainStyle = {
+  display: 'flex',
+  flexFlow: 'column nowrap'
+};
+
 class ReactPlanner extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      view: false
+    }
+  }
+
+
+  // handleViewARClick() {
+  //   console.log("Entered")
+  //   this.setState((prev) => {
+  //     console.log(prev)
+  //   })
+  // }
 
   getChildContext() {
     return {
@@ -40,14 +61,14 @@ class ReactPlanner extends Component {
   }
 
   componentWillMount() {
-    let {store} = this.context;
-    let {projectActions, catalog, stateExtractor, plugins} = this.props;
+    let { store } = this.context;
+    let { projectActions, catalog, stateExtractor, plugins } = this.props;
     plugins.forEach(plugin => plugin(store, stateExtractor));
     projectActions.initCatalog(catalog);
   }
 
   componentWillReceiveProps(nextProps) {
-    let {stateExtractor, state, projectActions, catalog} = nextProps;
+    let { stateExtractor, state, projectActions, catalog } = nextProps;
     let plannerState = stateExtractor(state);
     let catalogReady = plannerState.getIn(['catalog', 'ready']);
     if (!catalogReady) {
@@ -56,7 +77,7 @@ class ReactPlanner extends Component {
   }
 
   render() {
-    let {width, height, state, stateExtractor, ...props} = this.props;
+    let { width, height, state, stateExtractor, ...props } = this.props;
 
     let contentW = width - toolbarW - sidebarW;
     let toolbarH = height - footerBarH;
@@ -66,12 +87,22 @@ class ReactPlanner extends Component {
     let extractedState = stateExtractor(state);
 
     return (
-      <div style={{...wrapperStyle, height}}>
-        <Toolbar width={toolbarW} height={toolbarH} state={extractedState} {...props} />
-        <Content width={contentW} height={contentH} state={extractedState} {...props} onWheel={event => event.preventDefault()} />
-        <Sidebar width={sidebarW} height={sidebarH} state={extractedState} {...props} />
-        <FooterBar width={width} height={footerBarH} state={extractedState} {...props} />
+
+      <div style={{ ...mainStyle }}>
+
+
+        {
+          <div style={{ ...wrapperStyle, height }}>
+            <Toolbar width={toolbarW} height={toolbarH} state={extractedState} {...props} />
+            <Content width={contentW} height={contentH} state={extractedState} {...props} onWheel={event => event.preventDefault()} />
+            <Sidebar width={sidebarW} height={sidebarH} state={extractedState} {...props} />
+            <FooterBar width={width} height={footerBarH} state={extractedState} {...props} />
+          </div>
+        }
+
+
       </div>
+
     );
   }
 }

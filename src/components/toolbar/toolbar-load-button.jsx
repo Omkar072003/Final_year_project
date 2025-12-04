@@ -8,9 +8,11 @@ export default function ToolbarLoadButton({state}, {translator, projectActions})
 
   let loadProjectFromFile = event => {
     event.preventDefault();
+    console.log("testing........")
     browserUpload().then((data) => {
       projectActions.loadProject(JSON.parse(data));
     });
+    // projectActions.loadProject(JSON.parse(projectData ));
   };
 
   return (
